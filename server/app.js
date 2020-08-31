@@ -6,7 +6,7 @@ const http = require('http');
 const sanitizeNosqlQuery = require('express-mongo-sanitize');
 const rateLimiter = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
-//import preventCrossSiteScripting from 'xss-clean';
+const preventCrossSiteScripting =require( 'xss-clean');
 const preventParameterPollution = require('hpp');
 const compression = require('compression');
 require('dotenv').config();
@@ -29,7 +29,7 @@ app.use(express.json({ limit: '20kb' }));
 app.use(cookieParser());
 
 app.use(sanitizeNosqlQuery());
-//app.use(preventCrossSiteScripting());
+app.use(preventCrossSiteScripting());
 app.use(preventParameterPollution());
 
 app.use(compression());
