@@ -1,7 +1,7 @@
 function errorHandler(status, message) {
   const err = new Error();
   err.statusCode = status;
-  err.status = 'error';
+  err.error = 1;
   err.message = message;
   throw err;
 }

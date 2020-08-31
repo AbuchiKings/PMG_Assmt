@@ -1,13 +1,11 @@
 
-function responseHandler(response, result, next, statusCode, message, numOfResults) {
-  result && result.password ? result.password = '' : {};
+function responseHandler(response, result, next, statusCode, message) {
   if (result instanceof Error) {
     return next(result);
   } else {
     return response.status(statusCode).json({
-      status: 'success',
+      error: 0,
       message,
-      results: numOfResults,
       data: result
     });
   }
