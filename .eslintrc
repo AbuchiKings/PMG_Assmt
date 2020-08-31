@@ -3,12 +3,11 @@
     "root": true,
     "extends": ["airbnb", "prettier"],
     "env": {
-      "browser": true,
       "es6": true,
       "node": true
     },
     "parserOptions": {
-      "ecmaVersion": 8
+      "ecmaVersion": 6
     },
     "plugins": ["prettier"],
     "rules": {
