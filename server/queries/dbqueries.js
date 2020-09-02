@@ -14,8 +14,8 @@ const query = {
 
     createUser(firstname, lastname, gender, date_of_birth, dateCreated) {
         return ({
-            text: `INSERT INTO testuser (firstname, lastname, gender, date_of_birth, date_created)
-                VALUES($1, $2, $3, $4, $5)`,
+            text: `INSERT INTO users (firstname, lastname, gender, date_of_birth, date_created)
+                VALUES($1, $2, $3, $4, $5) RETURNING *`,
 
             values: [firstname, lastname, gender, date_of_birth, dateCreated]
         })
@@ -39,10 +39,10 @@ const query = {
         return ({
             text: `UPDATE users SET
             firstname = COALESCE($1, firstname), 
-            lastname = COALESCE($2, lastname)', 
-            gender = COALESCE($3, gender)', 
+            lastname = COALESCE($2, lastname), 
+            gender = COALESCE($3, gender), 
             date_of_birth = COALESCE($4, date_of_birth), 
-            date_updated = COALESCE($5, date_updated), 
+            date_updated = COALESCE($5, date_updated)
             WHERE id = $6 RETURNING *`,
             values: [firstname, lastname, gender, date_of_birth, dateUpdated, id]
         })

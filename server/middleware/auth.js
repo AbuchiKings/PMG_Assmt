@@ -4,8 +4,7 @@ const errorHandler = require('../utils/errorHandler');
 const responseHandler = require('../utils/responseHandler');
 const pool = require('../queries/pool')
 //const { Buffer } = require('buffer');
-const bcrypt = require('bcrypt');
-
+require('dotenv').config()
 
 const auth = {
 
@@ -23,16 +22,16 @@ const auth = {
 
             const username = str.split(':')[0];
             const pwd = str.split(':')[1];
-            console.log(pwd)
+            console.log(process.env.PASS)
 
-            const isValidName = username === process.env.USERNAME;
-            const isValidPwd = pwd === process.env.PWD;
+            const isValidName = username === process.env.USER_NAME;
+            const isValidPwd = pwd === process.env.PASS;
 
             if (!isValidPwd || !isValidName) {
                 res.set("WWW-Authenticate", "Basic");
                 return res.status(401).send({error: 1, message: 'Unauthorised'});
             }
-            return res.status(401).send({ value: str });
+            return next();
         } catch (error) {
             return next(error);
         }

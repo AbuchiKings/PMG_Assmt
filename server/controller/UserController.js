@@ -13,6 +13,7 @@ class UserController {
 
             const user = await pool.query(query.createUser(firstname, lastname, gender, date_of_birth, dateCreated));
             const result = user.rows[0];
+            console.log(user)
 
             return responseHandler(res, result, next, 201, 'User was successfully created');
         } catch (error) {
@@ -29,7 +30,7 @@ class UserController {
             const foundUser = await pool.query(query.getUserById(id));
             if (!foundUser.rows[0]) return errorHandler(404, 'User not found');
 
-            const dateUpdated = Date()
+            const dateUpdated = new Date()
             const user = await pool.query(query.updateUser(firstname, lastname, gender, date_of_birth, dateUpdated, id));
             const result = user.rows[0]
             return responseHandler(res, result, next, 200, 'User was successfully updated');
@@ -73,9 +74,9 @@ class UserController {
             const id = parseInt(req.params.id, 10);
             const user = await pool.query(query.deleteUser(id));
 
-            if (user.rows[0]) errorHandler(404, "User was not found");
+            if (!user.rows[0]) errorHandler(404, "User was not found");
 
-            return responseHandler(res, null, next, 200, 'User deleted successfully');
+            return responseHandler(res, null, next, 204, 'User deleted successfully');
         } catch (error) {
             console.log(error);
             return next(error);

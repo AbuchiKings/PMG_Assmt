@@ -9,7 +9,7 @@ const router = Router();
 router.post('/users', auth.verifyToken, User.createUser);
 router.get('/users/:id', auth.verifyToken, User.getUser);
 router.get('/users', auth.verifyToken, User.getAllUsers);
-router.patch('/users', auth.verifyToken, User.updateUser);
+router.patch('/users/:id', auth.verifyToken, User.updateUser);
 router.delete('/users/:id', auth.verifyToken, User.deleteUser);
 
 
