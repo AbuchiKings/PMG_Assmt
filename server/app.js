@@ -6,7 +6,7 @@ const http = require('http');
 const sanitizeNosqlQuery = require('express-mongo-sanitize');
 const rateLimiter = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
-const preventCrossSiteScripting =require( 'xss-clean');
+const preventCrossSiteScripting = require('xss-clean');
 const preventParameterPollution = require('hpp');
 const compression = require('compression');
 require('dotenv').config();
@@ -42,7 +42,7 @@ app.use((err, req, res, next) => {
         err.message = err.statusCode === 500 ? "Something has gone very wrong" : err.message;
     }
     res.status(err.statusCode || 500);
-    return res.json({ ...err });
+    return res.json({ error: 1, message: err.message });
 });
 const server = http.createServer(app);
 
@@ -69,4 +69,4 @@ process.on('SIGTERM', () => {
     });
 });
 
-module.exports = app;
+module.exports = server;

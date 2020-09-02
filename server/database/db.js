@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 const dotenv = require('dotenv');
-const query = require('./queries/dbqueries');
+const query = require('../queries/dbqueries');
 const bcrypt = require('bcrypt');
 
 
@@ -43,11 +43,12 @@ const usersTable = `CREATE TABLE IF NOT EXISTS users(
     const check = `SELECT * FROM testuser`;
     const { rowCount } = await pool.query(check);
     if (rowCount < 1) {
-      const [hashedPwd, hashedUsername] = await Promise.all(bcrypt.hash(process.env.PWD, process.env.SALT),
-        bcrypt.hash(process.env.USERNAME, process.env.SALT));
+      const hashedUsername = await bcrypt.hash(process.env.USERNAME, parseInt(process.env.SALT, 10))
+      const hashedPwd = await bcrypt.hash(process.env.PWD, parseInt(process.env.SALT, 10));
       await pool.query(query.regUser(hashedUsername, hashedPwd));
     }
   } catch (error) {
     console.log(error);
   }
 })();
+

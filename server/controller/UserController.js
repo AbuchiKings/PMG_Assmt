@@ -1,7 +1,7 @@
 const query = require('../queries/dbqueries');;
 const pool = require('../queries/pool');
 const responseHandler = require('../utils/responseHandler');
-const errorHandler = require('./../utils/errorHandler');
+const errorHandler = require('../utils/errorHandler');
 
 class UserController {
 

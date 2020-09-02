@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "db": "node ./server/db.js",
+    "db": "node ./server/database/db.js",
     "start": "npm run db && node server/app.js",
     "dev": "nodemon ./server/app.js"
   },
@@ -34,6 +34,7 @@
     "nyc": "^14.1.1"
   },
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
