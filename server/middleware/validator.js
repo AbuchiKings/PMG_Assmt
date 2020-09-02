@@ -3,61 +3,45 @@ const mongoose = require('mongoose');
 const errorHandler = require('../utils/errorHandler');
 
 
-const validateLogin = [
-    body('email')
-        .exists()
-        .withMessage('A valid email must be provided.')
-        .normalizeEmail({ all_lowercase: true })
-        .isEmail()
-        .withMessage('Invalid email address.'),
-    body('password')
-        .exists()
-        .withMessage('User password must be provided.')
-        .isLength({ min: 5 })
-        .withMessage('Passwords must be up to five(5) characters.')
-];
 
-const validateSignup = [
-    body('fullname')
+const validateCreate = [
+    body(['firstname', 'lastname'])
         .exists()
-        .withMessage('Name field cannot be empty.')
+        .withMessage('Firts name and last name cannot be empty.')
         .isString()
         .custom((value) => {
             if (value !== undefined) {
-                const val = value.split(' ');
-                const check = val[0] && val[1];
-                return check && val[0].replace(/\s+/g, '').trim().length > 2 &&
-                    val[1].replace(/\s+/g, '').trim().length > 2;
+                return value.replace(/\s+/g, '').trim().length > 1;
             }
         })
-        .withMessage('First name and last name must have a minimun of three(3) letters.'),
-    validateLogin[0],
-    validateLogin[1],
-    body('password')
-        .custom((value, { req }) => {
-            return value === req.body.confirmPassword
+        .withMessage('First name and last name must have a minimun of two(2) letters.'),
+    body('gender')
+        .custom((value) => {
+            return value === 'M' || value === 'F';
         })
-        .withMessage('Passwords do not match.'),
+        .withMessage('Invalid input for field gender'),
+    body('date_of_birth')
+        .custom((value) => {
+            const reg = /^(19|20)\d\d[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])$/;
+            return reg.test(value.trim());
+        })
+        .withMessage('Invalid input for field date 0f birth')
 ];
 
 const validateId = [
-    param('task_id')
+    param('id')
         .exists()
-        .withMessage('Provide a task_id')
-        .custom(value => {
-            return mongoose.Types.ObjectId.isValid(value);
-        })
-        .withMessage('Invalid task id')
+        .withMessage('Provide an id')
+        .isInt()
+        .withMessage('Invalid user id')
 
 ];
 
-const validateTask = [
-    body('task')
-        .exists()
-        .withMessage('You haven\'t entered any text')
-        .isLength({ min: 5 })
-        .withMessage('Task must have a minimum of 5 characters'),
-    //sanitize('task')
+const validateUpdate = [
+    validateId,
+    validateCreate[0].optional(),
+    validateCreate[1].optional(),
+    validateCreate[2].optional()
 ];
 
 const validationHandler = (req, res, next) => {
@@ -70,10 +54,9 @@ const validationHandler = (req, res, next) => {
 };
 
 const validator = {
-    validateLogin,
-    validateSignup,
+    validateUpdate,
     validateId,
-    validateTask,
+    validateCreate,
     validationHandler
 };
 
