@@ -18,10 +18,6 @@ pool.on('connect', () => {
 /**
  * Create Tables
  */
-const testUser = `CREATE TABLE IF NOT EXISTS testuser(
-  username TEXT,
-  password TEXT
-);`;
 
 
 const usersTable = `CREATE TABLE IF NOT EXISTS users(
@@ -38,15 +34,7 @@ const usersTable = `CREATE TABLE IF NOT EXISTS users(
 
 (async function () {
   try {
-    await pool.query(testUser);
     await pool.query(usersTable);
-    const check = `SELECT * FROM testuser`;
-    const { rowCount } = await pool.query(check);
-    if (rowCount < 1) {
-      const hashedUsername = await bcrypt.hash(process.env.USERNAME, parseInt(process.env.SALT, 10))
-      const hashedPwd = await bcrypt.hash(process.env.PWD, parseInt(process.env.SALT, 10));
-      await pool.query(query.regUser(hashedUsername, hashedPwd));
-    }
   } catch (error) {
     console.log(error);
   }

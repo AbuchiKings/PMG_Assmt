@@ -14,7 +14,7 @@ const auth = {
             const access = req.headers.authorization;
             if (!access || !access.split(' ')[1]) {
                 res.set("WWW-Authenticate", "Basic");
-                return res.status(401).send();
+                return res.status(401).send({error: 1, message: 'Unauthorised'});
             }
 
             let auth = access.split(' ')[1];
@@ -24,13 +24,13 @@ const auth = {
             const username = str.split(':')[0];
             const pwd = str.split(':')[1];
             console.log(pwd)
-            
+
             const isValidName = username === process.env.USERNAME;
             const isValidPwd = pwd === process.env.PWD;
 
             if (!isValidPwd || !isValidName) {
                 res.set("WWW-Authenticate", "Basic");
-                return res.status(401).send();
+                return res.status(401).send({error: 1, message: 'Unauthorised'});
             }
             return res.status(401).send({ value: str });
         } catch (error) {
