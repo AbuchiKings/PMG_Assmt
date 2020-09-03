@@ -27,18 +27,18 @@ To run on your local machine. Make sure you have NodeJs >= V10.15.1 and Postgres
 | --------------------------------------------------------| -----------------------------------------------------|
 | {POST}/api/v1/users                                     | Creates a new user                                   |
 | {GET}/api/v1/users                                      | Retrieves all users                                  |
-| {PUT}/api/v1/users/:id                                  | Updates a user                                       |
 | {GET}/api/v1/users/:id                                  | Retrieves a single user                              |
+| {PUT}/api/v1/users/:id                                  | Updates a user                                       |
 | {DELETE}/api/v1/users/:id                               | Deltes a specific user                               |                           
 
 
 ### Sample Requests and Responses From The API
-
+* BaseUrl: https://pmg-assmt.herokuapp.com/api/v1
 
 ### Create A User
 
 * Request
-    * Endpoint: POST/api/v1/users
+    * Endpoint: POST/users
     * Body: (application/json)
     ```
         {       
@@ -71,7 +71,7 @@ To run on your local machine. Make sure you have NodeJs >= V10.15.1 and Postgres
 ### Retrieve All Users
 
 * Request:
-    * Endpoint: GET/api/v1/users
+    * Endpoint: GET/users
     * Querystrings (Optional):
 
     ```
@@ -135,7 +135,7 @@ To run on your local machine. Make sure you have NodeJs >= V10.15.1 and Postgres
 ### Retrieve A User
 
 * Request:
-    * Endpoint: GET/api/v1/users/6
+    * Endpoint: GET/users/6
 
 * Response:
     * Status: 200 - OK
@@ -160,7 +160,7 @@ To run on your local machine. Make sure you have NodeJs >= V10.15.1 and Postgres
 ### Update A User
 
 * Request
-    * Endpoint: PUT/api/v1/users/6
+    * Endpoint: PUT/users/6
     * Body: (application/json)
     ```
         {       
@@ -190,7 +190,7 @@ To run on your local machine. Make sure you have NodeJs >= V10.15.1 and Postgres
 
 ### Delete A User
 * Request:
-    * Endpoint: DELETE/api/v1/users/5
+    * Endpoint: DELETE/users/5
 
 * Response: 
     * Status: 204 - No Content
