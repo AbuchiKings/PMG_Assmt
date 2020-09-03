@@ -28,10 +28,28 @@ const query = {
         })
     },
 
-    getAllUsers() {
+    getAllUsers(query, offset) {
+        let { sort_field, sort_order_mode, filter_field, filter_value, page_size } = query;
+        let sql = `SELECT * FROM users `;
+
+        if (filter_field && filter_value) {
+            sql += `WHERE LOWER(${filter_field}) LIKE $1 `;
+        }
+        if (sort_field && sort_order_mode) {
+            sql += `ORDER BY ${sort_field} ${sort_order_mode} `;
+        }
+
+        if (page_size) {
+            sql += `LIMIT ${page_size} `;
+        }
+
+        if (offset) {
+            sql += `OFFSET ${offset} `;
+        }
+
         return ({
-            text: `SELECT * FROM users`,
-            values: []
+            text: sql,
+            values: [`${'%' + filter_value.toLowerCase() + '%'}`]
         })
     },
 

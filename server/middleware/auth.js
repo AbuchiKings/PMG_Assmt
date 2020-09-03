@@ -8,7 +8,7 @@ require('dotenv').config()
 
 const auth = {
 
-     verifyToken(req, res, next) {
+    verifyCredentials(req, res, next) {
         try {
             const access = req.headers.authorization;
             if (!access || !access.split(' ')[1]) {

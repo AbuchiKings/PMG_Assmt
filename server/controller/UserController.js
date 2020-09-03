@@ -13,11 +13,9 @@ class UserController {
 
             const user = await pool.query(query.createUser(firstname, lastname, gender, date_of_birth, dateCreated));
             const result = user.rows[0];
-            console.log(user)
 
             return responseHandler(res, result, next, 201, 'User was successfully created');
         } catch (error) {
-            console.log(error);
             return next(error);
         }
     }
@@ -35,7 +33,6 @@ class UserController {
             const result = user.rows[0]
             return responseHandler(res, result, next, 200, 'User was successfully updated');
         } catch (error) {
-            console.log(error)
             return next(error);
         }
     }
@@ -50,20 +47,27 @@ class UserController {
 
             return responseHandler(res, user.rows[0], next, 200, 'User retrieved successfully')
         } catch (error) {
-            console.log(error);
             return next(error)
         }
     }
 
     static async getAllUsers(req, res, next) {
         try {
-            const result = await pool.query(query.getAllUsers());
+            let { page, page_size } = req.query;
+            page = page ? page - 1 : 1 - 1;
+            page_size = page_size ? page_size : 25;
+            let offset = page * page_size;
+            req.query.page_size = page_size;
+
+            const result = await pool.query(query.getAllUsers(req.query, offset));
             if (result.rowCount < 1) {
                 return errorHandler(404, 'No user found');
             }
             return responseHandler(res, result.rows, next, 200, 'Users retrieved successfully');
         } catch (error) {
-            console.log(error);
+            if (error.code == 42703) {
+                error.message = 'No user found';
+            }
             return next(error);
         }
     }
@@ -78,7 +82,6 @@ class UserController {
 
             return responseHandler(res, null, next, 204, 'User deleted successfully');
         } catch (error) {
-            console.log(error);
             return next(error);
         }
     }

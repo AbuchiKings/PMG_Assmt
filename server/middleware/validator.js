@@ -1,4 +1,4 @@
-const { body, param, validationResult } = require('express-validator');
+const { body, param, validationResult, query } = require('express-validator');
 const errorHandler = require('../utils/errorHandler');
 
 
@@ -24,7 +24,7 @@ const validateCreate = [
             const reg = /^(19|20)\d\d[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])$/;
             return reg.test(value.trim());
         })
-        .withMessage('Invalid input for field date 0f birth')
+        .withMessage('Invalid input for field date of birth')
 ];
 
 const validateId = [
@@ -35,7 +35,23 @@ const validateId = [
         .withMessage('Invalid user id')
 
 ];
+const validateQueries = [
+    query(['page', 'page_size'])
+        // .exists()
+        // .withMessage('Page and page_size cannot be empty')
+        .isInt()
+        .withMessage('Page and page_size must be of type number'),
+    query('sort_order_mode')
+        .custom((value) => {
+            return ['asc', 'desc'].includes(value.toLowerCase());
+        })
+        .withMessage('Sort order can only be asc(ascending) or desc(descending)')
 
+];
+const validateGetAll = [
+    validateQueries[0].optional(),
+    validateQueries[1].optional()
+]
 const validateUpdate = [
     validateId,
     validateCreate[0].optional(),
@@ -56,6 +72,7 @@ const validator = {
     validateUpdate,
     validateId,
     validateCreate,
+    validateGetAll,
     validationHandler
 };
 
