@@ -74,14 +74,14 @@ To run on your local machine. Make sure you have NodeJs >= V10.15.1 and Postgres
     * Endpoint: GET/api/v1/users
     * Querystrings (Optional):
 
-            ```
-            sort_field - this can be any field in the JSON e.g. "firstname",
-            sort_order_mode - this can be either "asc" or "desc"
-            filter_field - this can be any field in the JSON e.g. "firstname",
-            filter_value - the criteria upon which the response data will be filtered
-            page : The current page. Default is 1
-            page_size: The number of records per page. Default is 25
-            ```
+    ```
+        sort_field - this can be any field in the JSON e.g. "firstname",
+        sort_order_mode - this can be either "asc" or "desc"
+        filter_field - this can be any field in the JSON e.g. "firstname",
+        filter_value - the criteria upon which the response data will be filtered
+        page : The current page. Default is 1
+        page_size: The number of records per page. Default is 25
+    ```
 
 * Response:
     * Status: 200 - OK
