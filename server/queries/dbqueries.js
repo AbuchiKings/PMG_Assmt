@@ -31,6 +31,7 @@ const query = {
     getAllUsers(query, offset) {
         let { sort_field, sort_order_mode, filter_field, filter_value, page_size } = query;
         let sql = `SELECT * FROM users `;
+        let ftv = filter_value ? ['%' + filter_value.toLowerCase() + '%'] : [];
 
         if (filter_field && filter_value) {
             sql += `WHERE LOWER(${filter_field}) LIKE $1 `;
@@ -49,7 +50,7 @@ const query = {
 
         return ({
             text: sql,
-            values: [`${'%' + filter_value.toLowerCase() + '%'}`]
+            values: [...ftv]
         })
     },
 

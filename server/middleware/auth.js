@@ -1,10 +1,5 @@
-const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
-const errorHandler = require('../utils/errorHandler');
-const responseHandler = require('../utils/responseHandler');
-const pool = require('../queries/pool')
 //const { Buffer } = require('buffer');
-require('dotenv').config()
 
 const auth = {
 
@@ -22,7 +17,6 @@ const auth = {
 
             const username = str.split(':')[0];
             const pwd = str.split(':')[1];
-            console.log(process.env.PASS)
 
             const isValidName = username === process.env.USER_NAME;
             const isValidPwd = pwd === process.env.PASS;
